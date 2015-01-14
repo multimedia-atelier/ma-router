@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<!--
+  Copyright (c) 2014, <your name>. All rights reserved. Use of this source code
+  is governed by a BSD-style license that can be found in the LICENSE file.
+-->
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="scaffolded-by" content="https://github.com/google/stagehand">
+  <title>polymertest</title>
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Web Starter Kit">
+  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
+
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+  <meta name="msapplication-TileColor" content="#3372DF">
+
+  <!-- example of using a paper element -->
+  <link rel="import" href="packages/paper_elements/roboto.html">
+
+  <!-- example of your own custom element -->
+  <link rel="import" href="packages/core_elements/core_header_panel.html">
+  <link rel="import" href="packages/core_elements/core_toolbar.html">
+  <link rel="import" href="packages/ma_router/ma_router.html">
+  <link rel="import" href="../lib/test_routing.html">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    body {
+      padding: 3em;
+    }
+    html /deep/ div[route], html /deep/ div.route-container {
+      margin: 1em;
+      margin-left: 5em;
+      padding: 1em;
+      border: 1px solid black;
+    }
+    html /deep/ div[route] p:first-child, html /deep/ p.route-info {
+      font-family: monospace;
+      font-weight: bold;
+      padding: 0.3em;
+      background-color: lightskyblue;
+    }
+    html /deep/ [ma-router-invisible] {
+      display: none;
+    }
+    h2 {
+      margin-top: 3em;
+    }
+  </style>
+
+</head>
+
+<body unresolved>
+
+<h1>Routing</h1>
+
+<p>In our library, ANY html element can be a subject to hierarchical routing. Use the attribute "route" and naturally
+  nest HTML elements to structure your application. Like this:</p>
+<p>
+  <code>
+    &nbsp;&nbsp;&lt;ma-router&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div <b>route="/main"</b>&gt; &lt;!-- Responds to: #/main--&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;MAIN&lt;/p&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div <b>route="/page1"</b>&gt; &lt;!-- Responds to: #/main/page1 --&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;PAGE1&lt;/p&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div <b>route="/page2"</b>&gt; &lt;!-- Responds to: #/main/page2 --&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;PAGE2&lt;/p&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div <b>route="/.*"</b>&gt; &lt;!-- Responds to: #/main/.* --&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;reg-exp: .*&lt;/p&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+    &nbsp;&nbsp;&lt;/ma-router&gt;
+  </code>
+</p>
+
+<p>Try following examples ...</p>
+
+<ma-router>
+
+  <h2>Simple routing</h2>
+
+  <ul>
+    <li><a href="#/record">/record</a></li>
+    <li><a href="#/record/1213">/record/12131</a></li>
+    <li><a href="#/record/1213/edit">/record/12131/edit</a></li>
+  </ul>
+
+  <div route="/record">
+    <p>/record</p>
+    <div route="/{recordId:int}">
+      <p>/{recordId:int}</p>
+      <div route="/edit">
+        <p>/edit</p>
+      </div>
+    </div>
+  </div>
+
+  <a href="#/record/123" route="/record/.*">This is an &lt;a href="#/record/123" route="/route/.*"&gt; - any element can be a subject to routing ...</a>
+
+
+  <h2><a href="#/example2">Complicated example</a></h2>
+
+  <div route="/example2">
+    <p>/example2</p>
+
+    <ul>
+      <li><a href="#/example2/main">/main</a></li>
+      <li><a href="#/example2/main/page1">/main/page1</a></li>
+      <li><a href="#/example2/main/page2">/main/page2</a></li>
+      <li><a href="#/example2/page1">/page1</a> - nothing, routing is hierarchical, /main/page1 would work</li>
+      <li><a href="#/example2/main/blah-blah-blah">/main/blah-blah-blah</a> - reg exps are possible</li>
+      <li><a href="#/example2/main/user-qwer">/main/user-qwer</a></li>
+      <li><a href="#/example2/main/user-ty">/main/user-ty</a></li>
+      <li><a href="#/example2/var/some-string">/var/some-string</a></li>
+      <li><a href="#/example2/var/1213">/var/12131</a></li>
+    </ul>
+
+
+    <div route="/main">
+      <p>main</p>
+      <div route="/page1">
+        <p>page1</p>
+      </div>
+      <div route="/page2">
+        <p>page2</p>
+      </div>
+      <div route="/.*">
+        <p>reg-exp: .*</p>
+      </div>
+      <div route="/user-.*">
+        <p>reg-exp: user-.*</p>
+      </div>
+      <div route="/?user-.*">
+        <p>reg-exp: user-.*, but not mandatory, "/main" is enough. But if there is something after "/main", it must match "user-.*".</p>
+      </div>
+    </div>
+
+    <div route="/var/{anything}">
+      <p>/var/{anything}</p>
+    </div>
+
+    <div route="/var/{onlyInt:int}">
+      <p>/var/{onlyInt:int}</p>
+    </div>
+
+  </div>
+
+  <h2><a href="#/example3"> Shadow DOM, template changes and routing events</a></h2>
+
+  <div route="/example3">
+    <p>/example3</p>
+
+    <ul>
+      <li><a href="#/example3/core-header-panel/123456789">/core-header-panel/123456789</a></li>
+      <li><a href="#/example3/core-header-panel/345">/core-header-panel/345</a></li>
+      <li><a href="#/example3/core-header-panel/qwertyuiop/test1">/core-header-panel/qwertyuiop/test1</a></li>
+      <li><a href="#/example3/core-header-panel/asdfghjkl/test2">/core-header-panel/asdfghjkl/test2</a></li>
+      <li><a href="#/example3/core-header-panel/zxcvbnm/test3">/core-header-panel/zxcvbnm/test3</a></li>
+    </ul>
+
+    <core-header-panel style="margin-left: 10%; width: 80%; height: 40em;" route="/core-header-panel">
+      <core-toolbar class="core-header">core-header-panel routed to /core-header-panel</core-toolbar>
+      <test-routing route="/{someVariable}"></test-routing>
+    </core-header-panel>
+
+  </div>
+
+</ma-router>
+
+<script type="application/dart">export 'package:polymer/init.dart';</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!-- import polymer-element's definition -->
+<link rel="import" href="../../packages/polymer/polymer.html">
+<link rel="import" href="ma_monitor.html"/>
+<link rel="import" href="ma_activity.html"/>
+
+<polymer-element name="test-routing">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <!-- Template content here -->
+    <ma-monitor></ma-monitor>
+
+      <div class="route-container">
+        <p>Custom element &lt;test-routing&gt;</p>
+        <p class="route-info">/{someVariable}</p>
+
+        <p style="font-style: italic">
+          My parent's full route: <a _href="#{{parentRoute}}">{{parentRoute}}</a><br>
+          My full route: <a _href="#{{myRoute}}">{{myRoute}}</a><br>
+          {someVariable}=={{routerVariables['someVariable']}}<br>
+        </p>
+
+        <p>This part of (shadow dom) template is visible always</p>
+        <div route="/test1"><p>/test1</p></div>
+        <div route="/test2"><p>/test2</p></div>
+        <div route="/test3"><p>/test3</p></div>
+
+        <p>Change me: <input type="number" min="0" max="2" value="{{count}}"> count={{count}}</p>
+
+        <template if="{{count == '2'}}">
+          <ma-monitor></ma-monitor>
+          <p>This template is visible only if <b>count == 2</b></p>
+          <div route="/test1"><p>/test1</p></div>
+          <div route="/test2"><p>/test2</p></div>
+          <div route="/test3"><p>/test3</p></div>
+        </template>
+        <template if="{{count == '1'}}">
+          <ma-monitor></ma-monitor>
+          <p>This template is visible only if <b>count == 1</b></p>
+          <div route="/test1"><p>/test1</p></div>
+          <div route="/test2"><p>/test2</p></div>
+          <div route="/test3"><p>/test3</p></div>
+        </template>
+        <template if="{{count == '0'}}">
+          <ma-monitor></ma-monitor>
+          <p>This template is visible only if <b>count == 0</b></p>
+          <div route="/test1"><p>/test1</p></div>
+          <div route="/test2"><p>/test2</p></div>
+          <div route="/test3"><p>/test3</p></div>
+        </template>
+
+        <p><a _href="#{{myRoute}}/activity">Click here to show embeded custom element and catch routing event. Link target is generated dynamically
+        from my real current route: {{myRoute}}</a></p>
+
+        <ma-activity route="/activity" on-route-visible="{{debugRouterEvent}}">
+          <div class="route-container">
+            <p class="route-info">/activity</p>
+            <p>This is an embeded custom element. Whenever it get's displayed by router, it fires an event - see developer console. Use these events to load
+            required content - when it's needed and depending on routing variables.</p>
+          </div>
+        </ma-activity>
+      </div>
+
+  </template>
+  <script type="application/dart" src="test_routing.dart"></script>
+</polymer-element>

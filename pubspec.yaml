@@ -1,0 +1,17 @@
+name: 'ma_router'
+version: 0.1.0
+description: >
+  Smart routing hierarchical routing.
+author: Tomas Zverina zverina@m-atelier.cz
+#homepage: https://www.example.com
+environment:
+  sdk: '>=1.0.0 <2.0.0'
+dependencies:
+  browser: any
+  polymer: '>=0.15.0 <0.16.0'
+  paper_elements: '>=0.5.0 <0.6.0'
+  logging: ">=0.9.2 <0.10.0"
+  intl: ">=0.11.12 <0.12.0"
+transformers:
+- polymer:
+    entry_points: web/routing.html
